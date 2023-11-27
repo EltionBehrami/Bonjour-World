@@ -9,6 +9,12 @@ const validateRegisterInput = [
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 2, max: 30 })
+    .custom(value => {
+      return User.findOne({ where: {username: value} })
+         .then(() => {
+            return Promise.reject('Name already taken')
+         })
+    })
     .withMessage('Username must be between 2 and 30 characters'),
   check('password')
     .exists({ checkFalsy: true })

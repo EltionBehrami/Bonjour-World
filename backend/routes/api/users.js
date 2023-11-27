@@ -9,13 +9,12 @@ const { isProduction } = require('../../config/keys');
 
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
+const validateUserInput = require('../../validations/user');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.json({
-    
-    message: "GET /api/users"
-  });
+router.get('/', async (req, res, next) => {
+  const users = await User.find();
+  res.json(users);
 });
 
 router.get('/current', restoreUser, (req, res) => {
@@ -92,5 +91,29 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
     return res.json(await loginUser(user)); // <-- THIS IS THE CHANGED LINE
   })(req, res, next);
 });
+
+// UPDATE /api/users/:id
+router.patch('/:id', validateUserInput, async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id);
+    return res.json(user);
+  } catch {
+    res.json({message: 'error updating user'});
+  }
+})
+
+// DELETE /api/users/:id
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id)
+    if (user) {
+        return res.json(user);
+    } else {
+        return res.json({message: 'user not found'})
+    }
+} catch {
+    res.json({message: 'error deleting user'});
+}
+})
 
 module.exports = router;
