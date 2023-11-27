@@ -16,3 +16,5 @@ const validateUserInput = [
       .withMessage('Username must be between 2 and 30 characters'),
     handleValidationErrors
   ];
+
+module.exports = validateUserInput;
