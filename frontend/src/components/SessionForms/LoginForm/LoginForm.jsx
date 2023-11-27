@@ -30,6 +30,8 @@ const LoginForm = () => {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2>Log In</h2>
+
+      <div>
       <div className="errors">{errors?.email}</div>
       <label>Email
         <input type="text"
@@ -46,6 +48,8 @@ const LoginForm = () => {
           placeholder="Password"
         />
       </label>
+      </div>
+
       <input
         type="submit"
         value="Log In"
