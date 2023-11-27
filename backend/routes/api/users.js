@@ -40,6 +40,7 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
   const user = await User.findOne({
     $or: [{ email: req.body.email }, { username: req.body.username }]
   });
+  console.log(user)
 
   if (user) {
     // Throw a 400 error if the email address and/or username already exists
