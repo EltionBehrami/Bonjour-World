@@ -16,6 +16,8 @@ const EventForm = () => {
             city: '',
             address: '',
             zipcode: '',
+            lat: '',
+            long: '',
             date: '',
             time: '',
             host: ''
@@ -27,7 +29,9 @@ const EventForm = () => {
     const [state,setState] = useState(event.state);
     const [city,setCity] = useState(event.city);
     const [address,setAddress] = useState(event.address);
-    const [zipcode,setZipcode] = useState(event.zipcode)
+    const [zipcode,setZipcode] = useState(event.zipcode);
+    const [lat,setLat] = useState(event.zipcode);
+    const [long,setLong] = useState(event.zipcode);
     const [date, setDate] = useState(event.date);
     const [time,setTime] = useState(event.time);
     const [host,setHost] = useState(event.host);
@@ -41,7 +45,7 @@ const EventForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        event = { ...event, title,description,language,state,city,address,zipcode,date,time,host };
+        event = { ...event, title,description,language,state,city,address,zipcode,lat,long,date,time,host };
         eventType === 'Create Event' ?
         dispatch(createEvent(event)) :
         dispatch(updateEvent(event));
@@ -70,6 +74,12 @@ const EventForm = () => {
                 break;
             case 'zipcode': 
                 setZipcode(e.currentTarget.value);
+                break;
+            case 'lat': 
+                setLat(e.currentTarget.value);
+                break;
+            case 'long': 
+                setLong(e.currentTarget.value);
                 break;
             case 'date':
                 setDate(e.currentTarget.value);
@@ -151,6 +161,24 @@ const EventForm = () => {
                     type="text"
                     value={zipcode}
                     onChange={update('zipcode')}
+                />
+            </label>
+
+            <label>
+                Lat
+                <input 
+                    type="text"
+                    value={lat}
+                    onChange={update('lat')}
+                />
+            </label>
+
+            <label>
+                Long
+                <input 
+                    type="text"
+                    value={long}
+                    onChange={update('long')}
                 />
             </label>
         

@@ -21,6 +21,8 @@ const EventShow = () => {
             <label>{event.city}</label>
             <label>{event.address}</label>
             <label>{event.zipcode}</label>
+            <label>{event.lat}</label>
+            <label>{event.long}</label>
             <label>{event.date}</label>
             <label>{event.time}</label>
             <label>{event.host}</label>
