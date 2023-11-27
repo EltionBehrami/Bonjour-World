@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Event = mongoose.model('Event');
 
-const validateEventCreation = require('../../validations/createEvent');
+const validateEventCreation = require('../../validations/event');
 
 // * GET one event (show) //
 router.get('/:id', async (req, res, next) => {
