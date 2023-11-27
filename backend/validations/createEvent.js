@@ -3,6 +3,15 @@ const handleValidationErrors = require('./handleValidationErrors');
 
 const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 
+const isValidDate = (dateString) => {
+    var regEx = /^\d{4}-\d{2}-\d{2}$/;
+    if(!dateString.match(regEx)) return false;  // Invalid format
+    var d = new Date(dateString);
+    var dNum = d.getTime();
+    if(!dNum && dNum !== 0) return false; // NaN value, Invalid date
+    return d.toISOString().slice(0,10) === dateString;
+}
+
 const validateEventCreation = [
     check('title')
         .exists({checkFalsy: true})
@@ -28,11 +37,11 @@ const validateEventCreation = [
         .withMessage('Address is required'),
     check('zipcode')
         .exists({checkFalsy: true})
-        .isPostalCode({locale: 'US'})
+        .isPostalCode('US')
         .withMessage('Zipcode is invalid'),
     check('date') 
         .exists({checkFalsy: true})
-        .isDate()
+        .custom(value => isValidDate(value))
         .withMessage('Date is invalid'),
     check('time')
         .exists({checkFalsy: true})
@@ -44,10 +53,12 @@ const validateEventCreation = [
     check('lat')
         .exists({checkFalsy: true})
         .isNumeric()
-        .withMesage('Latitude is invalid'),
+        .withMessage('Latitude is invalid'),
     check('long') 
         .exists({checkFalsy: true})
         .isNumeric()
         .withMessage('Longitude is invalid'),
     handleValidationErrors
 ]
+
+module.exports = validateEventCreation;
