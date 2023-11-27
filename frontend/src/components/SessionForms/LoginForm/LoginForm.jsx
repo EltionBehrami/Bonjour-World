@@ -24,28 +24,32 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(login({ email, password })); 
-    dispatch(closeModal("login"))
+    dispatch(closeModal())
   }
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2>Log In</h2>
-      <div className="errors">{errors?.email}</div>
-      <label>Email
-        <input type="text"
-          value={email}
-          onChange={update('email')}
-          placeholder="Email"
-        />
-      </label>
-      <div className="errors">{errors?.password}</div>
-      <label>Password
-        <input type="password"
-          value={password}
-          onChange={update('password')}
-          placeholder="Password"
-        />
-      </label>
+
+      <div className='inputs'>
+        <div className="errors">{errors?.email}</div>
+        <label>Email
+          <input type="text"
+            value={email}
+            onChange={update('email')}
+            placeholder="Email"
+          />
+        </label>
+        <div className="errors">{errors?.password}</div>
+        <label>Password
+          <input type="password"
+            value={password}
+            onChange={update('password')}
+            placeholder="Password"
+          />
+        </label>
+      </div>
+
       <input
         type="submit"
         value="Log In"
