@@ -13,7 +13,15 @@ const userSchema = new Schema({
     hashedPassword: {
       type: String,
       required: true
-    }
+    },
+    hostedEvents: {
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
+    },
+    events: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
+    }]
   }, {
     timestamps: true
   });

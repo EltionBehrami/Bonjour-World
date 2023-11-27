@@ -9,6 +9,7 @@ const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
+require('./models/Event');
 require('./config/passport'); // <-- ADD THIS LINE
 const passport = require('passport'); // <-- ADD THIS LINE
 
@@ -19,6 +20,7 @@ const usersRouter = require('./routes/api/users');
 // const usersRouter = require('./routes/api/users');
 // const tweetsRouter = require('./routes/api/tweets');
 const csrfRouter = require('./routes/api/csrf');
+const eventsRouter = require('./routes/api/events');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -49,6 +51,7 @@ app.use(
 app.use('/api/users', usersRouter);
 // app.use('/api/tweets', tweetsRouter);
 app.use('/api/csrf', csrfRouter);
+app.use('/api/events', eventsRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
