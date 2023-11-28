@@ -1,0 +1,14 @@
+.events-container {
+  width: 70%;
+  float: left;
+}
+
+.google-map {
+  float: left;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}

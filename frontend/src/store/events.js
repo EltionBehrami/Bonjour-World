@@ -41,7 +41,7 @@ export const clearEventErrors = (errors) => ({
 export const getEvent = (eventId) => (state) =>
   state.events ? state.events[eventId] : null;
 export const getEvents = (state) =>
-  state.events ? Object.values(state.events) : [];
+  state.events ? state.events : [];
 
 export const fetchEvents = () => async (dispatch) => {
   const res = await jwtFetch(`/api/events`);
@@ -53,11 +53,15 @@ export const fetchEvents = () => async (dispatch) => {
 };
 
 export const fetchEvent = (eventId) => async (dispatch) => {
-  const res = await jwtFetch(`/api/events/${eventId}`);
-
-  if (res.ok) {
-    const event = await res.json();
-    dispatch(recieveEvent(event));
+  try {
+    const res = await jwtFetch(`/api/events/${eventId}`);
+      const event = await res.json();
+      dispatch(recieveEvent(event));
+  } catch(err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
   }
 };
 
@@ -108,8 +112,6 @@ export const eventErrorsReducer = (state = nullErrors, action) => {
   switch (action.type) {
     case RECEIVE_EVENT_ERRORS:
       return action.errors;
-    case RECEIVE_NEW_EVENT:
-      return { ...state, new: action.event };
     case CLEAR_EVENT_ERRORS:
       return nullErrors;
     default:
@@ -121,6 +123,8 @@ const eventsReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_EVENTS:
       return { ...action.events };
+    case RECEIVE_NEW_EVENT:
+      return { ...state, new: action.event };
     case RECEIVE_EVENT:
       return { ...state, [action.event.id]: action.event };
     case REMOVE_EVENT:
