@@ -6,7 +6,6 @@ import './EventIndexItem.css'
 
 const EventIndexItem = ({ event }) => {
 
-
     return (
         <>
             <div className="event-item">
