@@ -14,6 +14,8 @@ const EventIndex = () => {
     dispatch(fetchEvents());
   }, []);
 
+  // debugger 
+
   return (
     <div className="clearfix">
       <div className="events-container">
