@@ -17,8 +17,14 @@ const NavBar = () => {
     if (loggedIn) {
       return (
         <div className="logged-in-links">
-          <Link className="all-events" to={"/events"}>All Events</Link>
-          <Link to={"/events/new"}>Create an Event</Link>
+          <Link className="all-events" to={"/events"}>
+            All Events
+          </Link>
+          <button
+            onClick={() => dispatch(openModal("createEvent"))}
+          >
+            Create an Event
+          </button>
           <Link to={"/profile"}>Profile</Link>
           <button onClick={logoutUser}>Logout</button>
         </div>

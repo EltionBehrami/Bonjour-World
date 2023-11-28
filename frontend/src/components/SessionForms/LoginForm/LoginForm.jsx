@@ -23,8 +23,10 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(login({ email, password })); 
-    dispatch(closeModal())
+    const res = await dispatch(login({ email, password }))
+    if (res.ok){
+      dispatch(closeModal())
+    }
   }
 
   return (

@@ -31,35 +31,34 @@
 
 /* logged in nav */
 
-.logged-in-links a,
-.logged-in-links button {
-    height: 25px;
-    width: 130px;
-    margin-left: 10px;
-    font-weight: bold;
-    border: 2px solid #354c7c;
-    border-radius: 3ch;
-    background-color: transparent;
-    color: #354c7c;
-    cursor: pointer;
-    font-family: Helvetica;
-    text-decoration: none;
-    white-space: nowrap;
-    display: inline-block;
-}
-
 .all-events {
     display: flex;
     justify-content: center;
 }
 
-.logged-in-links button {
-    background-color: #354c7c;
-    color: white;
+.logged-in-links a {
+    margin-left: 10px;
+    border: none;
+    color: #354c7c;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+    text-align: center;
 }
 
-.logged-in-links button:hover,
 .logged-in-links a:hover {
+    text-decoration: underline;
+}
+
+.logged-in-links button {
+    height: 25px;
+    width: 80px;
+    margin-left: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 3ch;
+    cursor: pointer;
     background-color: #354c7c;
     color: white;
 }

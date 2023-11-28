@@ -34,7 +34,7 @@
 }
 
 .login-form .inputs {
-  width: 45%;
+  width: 50%;
 }
 
 .login-form label {
@@ -73,5 +73,5 @@
 .login-form input[type="submit"]:disabled {
   background-color: #ccc;
   cursor: not-allowed;
-  width: 50%;
+  width: 55%;
 }

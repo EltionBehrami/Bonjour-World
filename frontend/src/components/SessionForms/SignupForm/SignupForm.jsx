@@ -49,14 +49,15 @@ const SignupForm = () => {
       password
     };
 
-    await dispatch(signup(user)); 
-    dispatch(closeModal("signup"))
+    const res = await dispatch(signup(user)); 
+    if (res.ok) {
+      dispatch(closeModal())
+    }
   }
 
   return (
     <form className="signup-form" onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
-
 
       <div className='inputs'>
         <div className="errors">{errors?.email}</div>
