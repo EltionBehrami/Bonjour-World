@@ -8,12 +8,12 @@ export const RECEIVE_EVENT_ERRORS = "events/RECEIVE_EVENT_ERRORS";
 export const RECEIVE_NEW_EVENT = "events/RECEIVE_NEW_EVENT";
 export const CLEAR_EVENT_ERRORS = "events/CLEAR_EVENT_ERRORS";
 
-export const recieveEvents = (events) => ({
+export const receiveEvents = (events) => ({
   type: RECEIVE_EVENTS,
   events
 });
 
-export const recieveEvent = (event) => ({
+export const receiveEvent = (event) => ({
   type: RECEIVE_EVENT,
   event
 });
@@ -43,25 +43,27 @@ export const getEvent = (eventId) => (state) => {
 };
 
 
-// export const getAlbumSongs = (albumId) => (state) => {
-//   const songs = [];
-//   Object.values(state.songs).forEach((song) => {
-//     if (song.albumId === parseInt(albumId)) {
-//       songs.push(song);
-//     }
-//   });
-//   return songs;
+export const getEvents = (state) => state?.events ? state?.events : [];
+
+// export const fetchEvents = () => async (dispatch) => {
+//   const res = await jwtFetch(`/api/events`);
+
+//   if (res.ok) {
+//     const events = await res.json();
+//     dispatch(recieveEvents(events));
+//   }
 // };
 
-export const getEvents = (state) =>
-  state.events ? state.events : [];
-
-export const fetchEvents = () => async (dispatch) => {
-  const res = await jwtFetch(`/api/events`);
-
-  if (res.ok) {
+export const fetchEvents = () => async dispatch => {
+  try {
+    const res = await jwtFetch(`/api/events`);
     const events = await res.json();
-    dispatch(recieveEvents(events));
+    dispatch(receiveEvents(events));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      dispatch(receiveErrors(resBody.errors));
+    }
   }
 };
 
@@ -105,7 +107,7 @@ export const updateEvent = (event) => async (dispatch) => {
 
   if (res.ok) {
     const event = await res.json();
-    dispatch(recieveEvent(event));
+    dispatch(receiveEvent(event));
   }
 };
 

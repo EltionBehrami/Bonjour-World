@@ -25,6 +25,7 @@ router.get('/:id', async (req, res, next) => {
 // GET /api/events
 router.get('/', async (req, res, next) => {
     const events = await Event.find();
+    console.log(events)
     return res.json(events);
 });
 

@@ -13,7 +13,7 @@ const EventIndex = () => {
 
   useEffect(() => {
     dispatch(fetchEvents());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
