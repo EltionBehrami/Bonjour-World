@@ -7,7 +7,6 @@ const Event = mongoose.model('Event');
 const passport = require('passport');
 const { loginUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
-
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const validateUserInput = require('../../validations/user');
