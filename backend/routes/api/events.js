@@ -20,7 +20,6 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // * GET all events //
-
 router.get('/', async (req, res, next) => {
     const events = await Event.find();
     return res.json(events);

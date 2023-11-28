@@ -10,38 +10,51 @@ export const CLEAR_EVENT_ERRORS = "events/CLEAR_EVENT_ERRORS";
 
 export const recieveEvents = (events) => ({
   type: RECEIVE_EVENTS,
-  events,
+  events
 });
 
 export const recieveEvent = (event) => ({
   type: RECEIVE_EVENT,
-  event,
+  event
 });
 
 export const removeEvent = (eventId) => ({
   type: REMOVE_EVENT,
-  eventId,
+  eventId
 });
 
 const receiveErrors = (errors) => ({
   type: RECEIVE_EVENT_ERRORS,
-  errors,
+  errors
 });
 
-const receiveNewEvent = (errors) => ({
+const receiveNewEvent = (event) => ({
   type: RECEIVE_NEW_EVENT,
-  errors,
+  event
 });
 
 export const clearEventErrors = (errors) => ({
   type: CLEAR_EVENT_ERRORS,
-  errors,
+  errors
 });
 
-export const getEvent = (eventId) => (state) =>
-  state.events ? state.events[eventId] : null;
+export const getEvent = (eventId) => (state) => {
+  return Object.values(state.events).find((event) => event._id === eventId);
+};
+
+
+// export const getAlbumSongs = (albumId) => (state) => {
+//   const songs = [];
+//   Object.values(state.songs).forEach((song) => {
+//     if (song.albumId === parseInt(albumId)) {
+//       songs.push(song);
+//     }
+//   });
+//   return songs;
+// };
+
 export const getEvents = (state) =>
-  state.events ? Object.values(state.events) : [];
+  state.events ? state.events : [];
 
 export const fetchEvents = () => async (dispatch) => {
   const res = await jwtFetch(`/api/events`);
@@ -53,11 +66,15 @@ export const fetchEvents = () => async (dispatch) => {
 };
 
 export const fetchEvent = (eventId) => async (dispatch) => {
-  const res = await jwtFetch(`/api/events/${eventId}`);
-
-  if (res.ok) {
-    const event = await res.json();
-    dispatch(recieveEvent(event));
+  try {
+    const res = await jwtFetch(`/api/events/${eventId}`);
+      const event = await res.json();
+      dispatch(receiveNewEvent(event));
+  } catch(err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
   }
 };
 
@@ -108,8 +125,6 @@ export const eventErrorsReducer = (state = nullErrors, action) => {
   switch (action.type) {
     case RECEIVE_EVENT_ERRORS:
       return action.errors;
-    case RECEIVE_NEW_EVENT:
-      return { ...state, new: action.event };
     case CLEAR_EVENT_ERRORS:
       return nullErrors;
     default:
@@ -121,8 +136,10 @@ const eventsReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_EVENTS:
       return { ...action.events };
-    case RECEIVE_EVENT:
-      return { ...state, [action.event.id]: action.event };
+    case RECEIVE_NEW_EVENT:
+      return { ...state, new: action.event };
+    // case RECEIVE_EVENT:
+    //   return { ...state, [action.event.id]: action.event };
     case REMOVE_EVENT:
       const newState = { ...state };
       delete newState[action.eventId];
