@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Event = mongoose.model('Event');
 const passport = require('passport');
 const { loginUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
@@ -17,6 +18,13 @@ router.get('/', async (req, res, next) => {
   res.json(users);
 });
 
+// GET /api/users/:id
+router.get('/:id', async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  const events = await Event.find({})
+})
+
+// GET /api/users/current
 router.get('/current', restoreUser, (req, res) => {
   if (!isProduction) {
     // In development, allow React server to gain access to the CSRF token
@@ -60,7 +68,10 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
   // Otherwise create a new user
   const newUser = new User({
     username: req.body.username,
-    email: req.body.email
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    age: req.body.age
   });
 
   bcrypt.genSalt(10, (err, salt) => {
@@ -96,10 +107,50 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
 // UPDATE /api/users/:id
 router.patch('/:id', validateUserInput, async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id);
+    let user = await User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true});
+    user = await user.populate('events');
+    console.log(user)
     return res.json(user);
   } catch {
     res.json({message: 'error updating user'});
+  }
+})
+
+// POST /api/users/:id/events/:id (post a many to many relationship)
+router.post('/:userId/events/:eventId', async(req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const event = await Event.findById(req.params.eventId);
+    if (!user || !event) {
+      return res.json({message: 'User or Event not found'});
+    }
+    user.events.push(req.params.eventId);
+    event.attendees.push(req.params.userId);
+    await user.save();
+    await event.save();
+    return res.json({message: 'User added to event'});
+  } catch {
+    return res.json({message: 'Error adding user to event'})
+  }
+})
+
+// DELETE /api/users/:id/events/:id (delete a many to many relationship)
+router.delete('/:userId/events/:eventId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const event = await Event.findById(req.params.eventId);
+    if (!user || !event) {
+      return res.json({message: 'User or Event not found'});
+    }
+    user.events.pull(req.params.eventId);
+    event.attendees.pull(req.params.userId);
+    await user.save();
+    await event.save();
+
+
+    return res.json({message: 'Event deleted for user'});
+  } catch {
+    return res.json({message: 'Error deleting event for user'})
   }
 })
 
