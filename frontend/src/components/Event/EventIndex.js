@@ -1,32 +1,33 @@
-import React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import EventIndexItem from "./EventIndexItem";
-import { getEvents, fetchEvents } from "../../store/events";
-import "./EventIndex.css"; // Import your CSS file
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import EventIndexItem from './EventIndexItem';
+import { getEvents, fetchEvents } from '../../store/events';
+import './EventIndex.css';
+import NavBar from '../NavBar'
 
 const EventIndex = () => {
-  const dispatch = useDispatch();
-  const events = useSelector(getEvents);
+    const dispatch = useDispatch();
+    const events = useSelector(getEvents);
 
-  useEffect(() => {
-    dispatch(fetchEvents());
-  }, []);
+    useEffect(() => {
+        dispatch(fetchEvents());
+    }, [dispatch]);
 
-  return (
-    <div className="clearfix">
-      <div className="events-container">
-        {events.map((event) => (
-          <EventIndexItem event={event} />
-        ))}
-        <Link to={"/events/new"}>New Event</Link>
-      </div>
-      <div className="google-map">
-        {/* Your Google Map component goes here */}
-      </div>
-    </div>
-  );
+    return (
+        <>
+            <NavBar />
+            <div className="event-index">
+                <div className="google-maps-container">
+                    
+                </div>
+                <div className="display-all-events">
+                    {events.map((event) => (
+                        <EventIndexItem key={event.id} event={event} />
+                    ))}
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default EventIndex;

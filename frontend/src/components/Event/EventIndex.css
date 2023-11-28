@@ -1,20 +1,30 @@
-/* Assuming your events container has a class named events-container */
-.events-container {
-  width: 70%;
-  /* Adjust this value based on your layout needs */
-  float: left;
+.event-index {
+  display: flex;
+  width: 100%;
 }
 
-/* Assuming your Google Map has a class named google-map */
-.google-map {
-  width: 30%;
-  /* Adjust this value based on your layout needs */
-  float: left;
+.display-all-events {
+  display: flex;
+  width: 800px;
+  height: 100vh;
+  padding: 20px;
+  padding-top: 5px;
+  order: 1;
+  flex-wrap: wrap;
+  border-left: 3px solid black;
+  border-top: 3px solid black;
+  overflow-y: auto;
+}  
+
+.google-maps-container {
+  flex: 1;
+  padding: 20px;
+  border-top: 3px solid black;
+  pointer-events: none; 
+  height: 100vh;
 }
 
-/* Clearfix to ensure proper layout clearing */
-.clearfix::after {
-  content: "";
-  display: table;
-  clear: both;
+.google-maps-container,
+.display-all-events {
+  height: calc(90vh - 20px); 
 }

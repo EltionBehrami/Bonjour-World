@@ -1,0 +1,39 @@
+.event-item {
+    padding: 20px;
+    height: 200px;
+    width: 780px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 3px solid black;
+    box-sizing: border-box;
+    color: #022a54f0;
+    font-size: 20px;
+    font-family: Helvetica;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.event-item:hover {
+    transform: scale(1.02);
+    border: 3px solid #022a54f0;
+    border-radius: 10px;
+    animation: backgroundGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundGlow {
+    from {
+        box-shadow: 0 0 1px #0d1948, 0 0 3px #0d1948, 0 0 5px #0d1948;
+    }
+    to {
+        box-shadow: 0 0 2px #0d1948, 0 0 4px #0d1948, 0 0 6px #0d1948;
+    }
+}
+
+.event-item-time,
+.event-item-description,
+.event-item-location {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}

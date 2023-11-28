@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEvent, fetchEvent } from '../store/events';
+import { getEvent, fetchEvent } from '../../store/events';
 
 const EventShow = () => {
     const dispatch = useDispatch();
