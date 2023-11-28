@@ -1,5 +1,7 @@
 const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 
 const validateRegisterInput = [
   check('email')
@@ -14,6 +16,14 @@ const validateRegisterInput = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6, max: 30 })
     .withMessage('Password must be between 6 and 30 characters'),
+  check('firstName')
+    .exists({checkFalsy: true})
+    .isLength({min: 1, max: 30})
+    .withMessage('First name is invalid'),
+  check('lastName')
+    .exists({checkFalsy: true})
+    .isLength({min: 1, max: 30})
+    .withMessage('Last name is invalid'),
   handleValidationErrors
 ];
 

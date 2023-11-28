@@ -64,11 +64,11 @@ const eventSchema = new Schema({
         required: true
     },
     host: {
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'User'
     },
     attendees: [{
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'User'
     }]
 }, {

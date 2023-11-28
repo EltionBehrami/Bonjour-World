@@ -2,13 +2,16 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Event = mongoose.model('Event');
+const User = mongoose.model('User');
 
 const validateEventCreation = require('../../validations/event');
 
-// * GET one event (show) //
+// GET /api/events/:id
 router.get('/:id', async (req, res, next) => {
     try {
-        const event = await Event.findById(req.params.id).populate('host', '_id username').populate('attendees', '_id username');
+        const event = await Event.findById(req.params.id).populate('host', '_id username')
+        await event.populate('attendees', '_id username');
+        await event.populate('host', '_id username');
         return res.json(event)
     }
     catch(err) {
@@ -19,14 +22,14 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-// * GET all events //
-
+// GET /api/events
 router.get('/', async (req, res, next) => {
     const events = await Event.find();
+    console.log(events)
     return res.json(events);
 });
 
-// * POST /api/events/create //
+// POST /api/events
 router.post('/', validateEventCreation, async (req, res, next) => {
     try {
         const newEvent = new Event({
@@ -45,8 +48,13 @@ router.post('/', validateEventCreation, async (req, res, next) => {
             attendees: req.body.attendees
         })
         let event = await newEvent.save();
-        event = await newEvent.populate('attendees', '_id username');
-        event = await event.populate('host', '_id username');
+
+        let user = await User.findOne({_id: req.body.host})
+        user.events.push(event._id);
+        user.hostedEvents = event._id
+        event.attendees.push(user._id)
+        await user.save();  
+        await event.save();
     
         return res.json(event)
     } catch {
@@ -54,7 +62,7 @@ router.post('/', validateEventCreation, async (req, res, next) => {
     }
 })
 
-// * DELETE event //
+// DELETE /api/events/:id
 router.delete('/:id', async (req, res, next) => {
     try {
         const event = await Event.findByIdAndDelete(req.params.id)
@@ -68,7 +76,7 @@ router.delete('/:id', async (req, res, next) => {
     }
 })
 
-// * UPDATE event //
+// UPDATE /api/events/:id
 
 router.patch('/:id', validateEventCreation, async (req, res, next) => {
     try {

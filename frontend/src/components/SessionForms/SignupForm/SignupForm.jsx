@@ -59,7 +59,6 @@ const SignupForm = () => {
     <form className="signup-form" onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
 
-
       <div className='inputs'>
         <div className="errors">{errors?.email}</div>
         <label>

@@ -8,56 +8,75 @@ export const RECEIVE_EVENT_ERRORS = "events/RECEIVE_EVENT_ERRORS";
 export const RECEIVE_NEW_EVENT = "events/RECEIVE_NEW_EVENT";
 export const CLEAR_EVENT_ERRORS = "events/CLEAR_EVENT_ERRORS";
 
-export const recieveEvents = (events) => ({
+export const receiveEvents = (events) => ({
   type: RECEIVE_EVENTS,
-  events,
+  events
 });
 
-export const recieveEvent = (event) => ({
+export const receiveEvent = (event) => ({
   type: RECEIVE_EVENT,
-  event,
+  event
 });
 
 export const removeEvent = (eventId) => ({
   type: REMOVE_EVENT,
-  eventId,
+  eventId
 });
 
 const receiveErrors = (errors) => ({
   type: RECEIVE_EVENT_ERRORS,
-  errors,
+  errors
 });
 
-const receiveNewEvent = (errors) => ({
+const receiveNewEvent = (event) => ({
   type: RECEIVE_NEW_EVENT,
-  errors,
+  event
 });
 
 export const clearEventErrors = (errors) => ({
   type: CLEAR_EVENT_ERRORS,
-  errors,
+  errors
 });
 
-export const getEvent = (eventId) => (state) =>
-  state.events ? state.events[eventId] : null;
-export const getEvents = (state) =>
-  state.events ? Object.values(state.events) : [];
+export const getEvent = (eventId) => (state) => {
+  return Object.values(state.events).find((event) => event._id === eventId);
+};
 
-export const fetchEvents = () => async (dispatch) => {
-  const res = await jwtFetch(`/api/events`);
 
-  if (res.ok) {
+export const getEvents = (state) => state?.events ? state?.events : [];
+
+// export const fetchEvents = () => async (dispatch) => {
+//   const res = await jwtFetch(`/api/events`);
+
+//   if (res.ok) {
+//     const events = await res.json();
+//     dispatch(recieveEvents(events));
+//   }
+// };
+
+export const fetchEvents = () => async dispatch => {
+  try {
+    const res = await jwtFetch(`/api/events`);
     const events = await res.json();
-    dispatch(recieveEvents(events));
+    dispatch(receiveEvents(events));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      dispatch(receiveErrors(resBody.errors));
+    }
   }
 };
 
 export const fetchEvent = (eventId) => async (dispatch) => {
-  const res = await jwtFetch(`/api/events/${eventId}`);
-
-  if (res.ok) {
-    const event = await res.json();
-    dispatch(recieveEvent(event));
+  try {
+    const res = await jwtFetch(`/api/events/${eventId}`);
+      const event = await res.json();
+      dispatch(receiveNewEvent(event));
+  } catch(err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
   }
 };
 
@@ -88,7 +107,7 @@ export const updateEvent = (event) => async (dispatch) => {
 
   if (res.ok) {
     const event = await res.json();
-    dispatch(recieveEvent(event));
+    dispatch(receiveEvent(event));
   }
 };
 
@@ -108,8 +127,6 @@ export const eventErrorsReducer = (state = nullErrors, action) => {
   switch (action.type) {
     case RECEIVE_EVENT_ERRORS:
       return action.errors;
-    case RECEIVE_NEW_EVENT:
-      return { ...state, new: action.event };
     case CLEAR_EVENT_ERRORS:
       return nullErrors;
     default:
@@ -121,8 +138,10 @@ const eventsReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_EVENTS:
       return { ...action.events };
-    case RECEIVE_EVENT:
-      return { ...state, [action.event.id]: action.event };
+    case RECEIVE_NEW_EVENT:
+      return { ...state, new: action.event };
+    // case RECEIVE_EVENT:
+    //   return { ...state, [action.event.id]: action.event };
     case REMOVE_EVENT:
       const newState = { ...state };
       delete newState[action.eventId];

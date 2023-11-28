@@ -7,7 +7,7 @@ import {
   createEvent,
   updateEvent,
   clearEventErrors,
-} from "../../store/events";
+} from "../../../store/events";
 
 const EventForm = () => {
   const errors = useSelector((state) => state.errors.event);
@@ -58,19 +58,19 @@ const EventForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     event = {
-        ...event,
-        title,
-        description,
-        language,
-        state,
-        city,
-        address,
-        zipcode,
-        lat,
-        long,
-        date,
-        time,
-        host,
+      ...event,
+      title,
+      description,
+      language,
+      state,
+      city,
+      address,
+      zipcode,
+      lat,
+      long,
+      date,
+      time,
+      host,
     };
     eventType === "Create Event"
       ? dispatch(createEvent(event))

@@ -1,4 +1,5 @@
 import { closeModal } from "../../store/modal";
+import EventForm from "../Event/EventForm/EventForm";
 import LoginForm from "../SessionForms/LoginForm/LoginForm";
 import SignupForm from "../SessionForms/SignupForm/SignupForm";
 import "./modal.css";
@@ -23,6 +24,10 @@ const Modal = () => {
     case "signup":
       component = <SignupForm modal={"null"} />;
       modalClass = "signup-modal";
+      break;
+    case "createEvent":
+      component = <EventForm modal={"null"} />;
+      modalClass = "create-event-modal";
       break;
     default:
       return null;
