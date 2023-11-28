@@ -29,7 +29,9 @@ users.push(
   new User ({
     username: 'demo-user',
     email: 'demo-user@appacademy.io',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    firstName: "Demo",
+    lastName: "Lition"
   })
 )
 
@@ -40,7 +42,9 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
     new User ({
       username: faker.internet.userName({firstName, lastName}),
       email: faker.internet.email({firstName, lastName}),
-      hashedPassword: bcrypt.hashSync(faker.internet.password(), 10)
+      hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
+      firstName: firstName,
+      lastName: lastName
     })
   )
 }
@@ -62,8 +66,7 @@ for (let i = 0; i < NUM_SEED_EVENTS; i++) {
       long: faker.number.float(),
       date: formatDate(faker.date.future()),
       time: "00:00",
-      host: "6564ba77122569fe91a5ef49",
-      attendees: ["6563a2bb66f7cd8279c661c0","6564fb5d122569fe91a5ef58","6564cbc8122569fe91a5ef4d"]
+      host: "65663b3fc93e20786445b515"
     })
   )
 }
@@ -83,7 +86,13 @@ const insertSeeds = () => {
     console.log("Resetting db and seeding users and events...");
   
     Event.collection.drop()
+      .then(() => User.collection.drop())
       .then(() => User.insertMany(users))
+      .then(() => events.forEach((event) => {
+        let user = User.findOne({username: "demo-user"});
+        event.host = user._id;
+        console.log(event)
+      }))
       .then(() => Event.insertMany(events))
       .then(() => {
         console.log("Done!");
