@@ -1,0 +1,20 @@
+/* Assuming your events container has a class named events-container */
+.events-container {
+  width: 70%;
+  /* Adjust this value based on your layout needs */
+  float: left;
+}
+
+/* Assuming your Google Map has a class named google-map */
+.google-map {
+  width: 30%;
+  /* Adjust this value based on your layout needs */
+  float: left;
+}
+
+/* Clearfix to ensure proper layout clearing */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}

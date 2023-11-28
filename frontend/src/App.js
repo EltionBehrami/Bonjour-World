@@ -7,6 +7,8 @@ import LoginForm from "./components/SessionForms/LoginForm/LoginForm";
 import SignupForm from "./components/SessionForms/SignupForm/SignupForm";
 import Modal from "./components/Modal";
 import SplashPage from "./components/SplashPage";
+import EventIndex from "./components/Event/EventIndex";
+import EventForm from "./components/Event/EventForm";
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -21,6 +23,8 @@ const App = () => {
         <>
           <Switch>
             <Route exact path="/" component={SplashPage}></Route>
+            <Route exact path="/events" component={EventIndex}></Route>
+            <Route exact path="/events/new" component={EventForm}></Route>
             <AuthRoute exact path="/login" component={LoginForm} />
             <AuthRoute exact path="/signup" component={SignupForm} />
           </Switch>

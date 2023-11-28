@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteEvent } from '../store/events';
+import { deleteEvent } from "../../store/events";
+
 
 const EventIndexItem = ( { event } ) => {
     const dispatch = useDispatch();
