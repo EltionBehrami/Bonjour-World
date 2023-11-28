@@ -23,7 +23,7 @@ const App = () => {
       {loaded && (
         <>
           <Switch>
-            <Route exact path="/" component={SplashPage}></Route>
+            <AuthRoute exact path="/" component={SplashPage}></AuthRoute>
             <Route exact path="/events" component={EventIndex}></Route>
             <Route exact path="/events/new" component={EventForm}></Route>
             <Route exact path="/events/:eventId" component={EventShow}></Route>
