@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import { AuthRoute, ProtectedRoute } from "./components/Routes/Routes";
-import NavBar from "./components/NavBar";
-import SplashPage from "./components/MainPage";
 import { getCurrentUser } from "./store/session";
 import LoginForm from "./components/SessionForms/LoginForm/LoginForm";
 import SignupForm from "./components/SessionForms/SignupForm/SignupForm";
 import Modal from "./components/Modal";
+import SplashPage from "./components/SplashPage";
+
 const App = () => {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -20,10 +20,7 @@ const App = () => {
       {loaded && (
         <>
           <Switch>
-            <Route exact path="/">
-              <NavBar />
-              <SplashPage />
-            </Route>
+            <Route exact path="/" component={SplashPage}></Route>
             <AuthRoute exact path="/login" component={LoginForm} />
             <AuthRoute exact path="/signup" component={SignupForm} />
           </Switch>
@@ -33,4 +30,5 @@ const App = () => {
     </>
   );
 };
+
 export default App;

@@ -1,0 +1,64 @@
+.nav-bar {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    align-items: center;
+    position: relative;
+}
+
+.nav-bar-header {
+    font-size: 30px;
+    font-family: Helvetica;
+    margin: 0px;
+    color: #022a54f0;
+}
+
+/* logged out nav */
+
+.logged-out-links .signup-button, .login-button {
+    height: 25px;
+    width: 100px;
+    margin-left: 10px;
+    font-weight: bold;
+    border: 2px solid #022a54f0;
+    border-radius: 3ch;
+    background-color: transparent;
+    color: #022a54f0;
+    cursor: pointer;
+    font-family: Helvetica;
+}
+
+/* logged in nav */
+
+.all-events {
+    display: flex;
+    justify-content: center;
+}
+
+.logged-in-links a {
+    margin-left: 10px;
+    border: none;
+    color: #354c7c;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+    text-align: center;
+}
+
+.logged-in-links a:hover {
+    text-decoration: underline;
+}
+
+.logged-in-links button {
+    height: 25px;
+    width: 80px;
+    margin-left: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 3ch;
+    cursor: pointer;
+    background-color: #354c7c;
+    color: white;
+}

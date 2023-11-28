@@ -13,13 +13,16 @@ const Modal = () => {
   }
 
   let component;
+  let modalClass;
 
   switch (modal) {
     case "login":
-      component = <LoginForm />;
+      component = <LoginForm modal={"null"} />;
+      modalClass = "login-modal"
       break;
     case "signup":
-      component = <SignupForm />;
+      component = <SignupForm modal={"null"} />;
+      modalClass = "signup-modal";
       break;
     default:
       return null;
@@ -27,7 +30,7 @@ const Modal = () => {
 
   return (
     <div className="modal-background" onClick={() => dispatch(closeModal())}>
-      <div className="modal-child" onClick={(e) => e.stopPropagation()}>
+      <div className={modalClass} onClick={(e) => e.stopPropagation()}>
         {component}
       </div>
     </div>

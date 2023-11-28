@@ -1,0 +1,51 @@
+.splash-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white;
+}
+
+.currentlanguage {
+  animation: fade 4s infinite;
+  opacity: 0;
+  text-align: center;
+  font-size: 100px;
+  color: #022a54f0;
+  white-space: nowrap;
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 7%;
+  margin-right: 5%;
+}
+
+.slogan {
+  color: #022a54f0;
+  font-size: 1.5rem;
+  max-width: 40%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  color: #022a54f0;
+}
